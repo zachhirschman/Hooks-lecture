@@ -1,68 +1,142 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Advanced React Lecture
 
-## Available Scripts
+## React Hooks
 
-In the project directory, you can run:
+A Hook is a function that allows us to **hook** into a variety of features from within functional components.
 
-### `npm start`
+If we want to be able to use features like state and lifecycle methods from within a functional component, we can use a couple of Hooks that React has built in called ***useState*** and ***useEffect***.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+We can destructure these hooks off of React by writing the following
+```js 
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+import React, {useEffect, useState} from "react";
 
-### `npm test`
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## useState 
 
-### `npm run build`
+- useState allows us to have state in our functional component. 
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+    function counter(){
+        // count is the state value that will be initialized with a starting value of 0
+        // setCount is the method we will use to update the count variable
+        let [count, setCount] = useState(0) 
+        return(
+            <div>
+                Current count: {count}
+                <button 
+                onClick = {() => setCount(count += 1)}>Increment
+                </button>
+            </div>
+        )
+    }
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## useEffect
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- useEffect allows us to perform side effects in our component. It will run any time a component updates, mounts, or unmounts to the DOM. 
+    - Thus, you can think of useEffect as ***componentDidUpdate***, ***componentDidMount***, and ***componentWillUnmount*** all in one.
 
-### `npm run eject`
+```js
+import React, { useState, useEffect } from 'react';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+function Example() {
+  const [count, setCount] = useState(0);
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  useEffect(() => {
+    document.title = `You clicked ${count} times`;
+  });
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Enhancing performance with useEffect
 
-## Learn More
+useEffect runs every time the component changes in any way. This could mean using a lot of computing power over and over again when we don't always need it to. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In order to get past this, we are able to pass a second argument to useEffect that React will use to determine whether or not it should re-render.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]); // Only re-run the effect if count changes
+```
 
-### Code Splitting
+In the above example, useEffect will only run when count changes. If count is 5 on the first render and then changes to 6, our effect will take place. If count stays the same, we wont run our effect.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Building your own hooks
 
-### Analyzing the Bundle Size
+An important part of programming is creating reusable code that will help us build our projects more efficiently. If you have a certain process that you find yourself reusing a lot, it would be a good idea to turn that process into a hook that you can use in other React components.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### useAxios hook
 
-### Making a Progressive Web App
+```js
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+    import { useState, useEffect } from 'react';
+import axios from 'axios';
+// default params to handle use cases
+const useAxios = (url, method = 'get', body = null, initialData = []) => {
+    const [data, setData] = useState(initialData)
 
-### Advanced Configuration
+    useEffect(() => {
+        axios(url, {
+            method,
+            body
+        }).then(response => {
+            setData(response.data);
+        })
+        // if the url or method changes, recall the effect
+    }, [url, method, body])
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+    return data
+}
+```
 
-### Deployment
+### Pro tip on making your own hooks
+- Hook names should always start with **use**
+  - React uses this convention to distinguish your function as a hook.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
-### `npm run build` fails to minify
+# Memoization
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Memoization is a technique used to optimize expensive functions by storing it's previously computed results. This saves us time and computing power when we call a function with the same paramaters multiple times.
+
+[Memo example](https://repl.it/@hirschzd01/memo-example)
+
+
+We can incorporate this technique in our React components by utilizing tools that React gives us called **memo** and **PureComponent**. 
+
+### PureComponent
+
+
+```js
+
+import React, {PureComponent} from "react"
+
+  // The Hello class will only re-render if it's props are changed.
+export default class Hello extends PureComponent{
+  render(){
+    return(
+      <p>{this.props.name}</p>
+    )
+  }
+}
+
+```
+
+### React.memo
+
+```js
+
+```
+
+
