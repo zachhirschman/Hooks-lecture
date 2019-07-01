@@ -1,12 +1,7 @@
-import React, {useState} from "react"
-import {useInput} from "../Hooks/useInput"
+import React from "react"
 import "./NewFriend.css"
-import Axios from "axios";
 
 export default function NewFriend(props){
-
-    let name = useInput('')
-    let image = useInput('')
 
     return(
         <div className = "NewFriend-Parent">
@@ -14,14 +9,14 @@ export default function NewFriend(props){
             <div className = "newFriend-Parent_input-container">
                 <div>
                     New Friend Name: 
-                    <input value = {name.value} {...name}/>
+                    <input />
 
                     New Friend Picture: 
-                    <input value = {image.value} {...image}/>
+                    <input/>
                 </div>
             </div>
 
-            <button onClick = {() => props.postFriendFn({name:name.value,image:image.value})}>Add New Friend</button>
+            <button>Add New Friend</button>
 
         </div>
     )

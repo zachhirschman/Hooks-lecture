@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import "./AllFriends.css"
 import MappedFriends from "../MappedFriends/MappedFriends"
 
@@ -8,7 +8,7 @@ export default function AllFriends(props){
             <div className = "section-header">
                 <h1>All Friends</h1>
             </div>
-                <MappedFriends friends = {props.friends} deleteFriendFn = {props.deleteFriendFn}/>
+                {/* Render mapped friends, pass appropriate props. */}
         </div>
     )
 }
