@@ -1,0 +1,10 @@
+.Allfriends-parent{
+    width:60vw;
+    height:90%;
+    flex-direction: column;
+    border:dotted 2px rgb(55, 0, 128);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: bisque;
+}
