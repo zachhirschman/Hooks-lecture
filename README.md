@@ -135,11 +135,21 @@ export default class Hello extends PureComponent{
 
 ### React.memo
 
+By default React.memo will only shallowly compare complex objects in the props object. If you want control over the comparison, you can also provide a custom comparison function as the second argument.
+
 ```js
 
-const MyComponent = React.memo(function MyComponent(props) {
+function MyComponent(props) {
   /* render using props */
-});
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
+}
+export default React.memo(MyComponent, areEqual);
 
 ```
 
