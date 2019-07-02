@@ -137,6 +137,14 @@ export default class Hello extends PureComponent{
 
 ```js
 
+const MyComponent = React.memo(function MyComponent(props) {
+  /* render using props */
+});
+
 ```
+
+### Additional resources 
+
+You can find a list of additional built in hooks [here](https://reactjs.org/docs/hooks-reference.html)
 
 

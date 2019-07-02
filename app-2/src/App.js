@@ -7,13 +7,6 @@ import NewFriend from './Components/NewFriend/NewFriend';
 
 function App() {
 
-  function deleteFriend(id){
-    // Endpoint: /api/delete-friend/:id
-  }
-
-  function postFriend(payload){
-    // Endpoint: /api/post-friend
-  }
 
   return (
     <div className="App">
